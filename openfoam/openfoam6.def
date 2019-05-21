@@ -1,0 +1,9 @@
+BootStrap: docker
+From: openfoam/openfoam6-paraview54
+
+%post
+    ln -sf /bin/bash /bin/sh
+    echo '. /opt/openfoam6/etc/bashrc' >> $SINGULARITY_ENVIRONMENT
+
+%label
+    Author Jack

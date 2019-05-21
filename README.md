@@ -37,10 +37,10 @@ singularity pull openfoam6.sif docker://openfoam/openfoam6-paraview54
 
 当前目录会生成一个名为 `openfoam6.sif` 的可执行文件
 
-
 为了使 sif 更加友好，这里使用["定义文件"构建 SIF](https://www.sylabs.io/guides/3.2/user-guide/definition_files.html)
 
 ```bash
+$ cd openfoam
 $ cat openfoam6.def
 BootStrap: docker
 From: openfoam/openfoam6-paraview54
@@ -61,16 +61,16 @@ $ sudo singularity build openfoam6.sif openfoam6.def
 ```bash
 # shell 方式运行
 #   - 当前目录会以 overlay 方式挂在到容器中, 用 --pwd 指定当前目录
-singularity shell openfoam6
+singularity shell openfoam6.sif
 
 # run 方式运行
 #   - 如果定义了 %runscript 则执行这部分代码片段
 #   - 如果从 docker 导入则执行 ENTRYPOINT
 #   - 否则执行默认 shell
-singularity run openfoam6
+singularity run openfoam6.sif
 
 # exec 方式运行
-singularity exec openfoam6 simpleFoam -help
+singularity exec openfoam6.sif simpleFoam -help
 ```
 
 ## 测试
@@ -87,7 +87,7 @@ singularity exec openfoam6 simpleFoam -help
 
 ### 测试用例
 
-参考 [benchmark/motorbike](https://github.com/OpenFOAM/OpenFOAM-Intel/tree/master/benchmarks/motorbike)
+参考 [benchmarks/motorbike](https://github.com/OpenFOAM/OpenFOAM-Intel/tree/master/benchmarks/motorbike)
 
 ```
 cd motorbike
@@ -116,7 +116,7 @@ mpirun -np 28 -oversubscribe simpleFoam -parallel
 | 2  | 1139.51s user 97.97s system 2764% cpu 44.769 total |
 | 3  | 1155.45s user 97.17s system 2768% cpu 45.253 total |
 
-- Singularity + 内建 mpi: `time singularity exec ~/bin/openfoam6.sif sh -c 'mpirun -np 28 --oversubscribe simpleFoam -parallel'`
+- Singularity + 内建 mpi: `time singularity exec ~/bin/openfoam6.sif bash -c 'mpirun -np 28 -oversubscribe simpleFoam -parallel'`
 
 | 编号 | 计时 |
 | -- | -- |
@@ -124,7 +124,7 @@ mpirun -np 28 -oversubscribe simpleFoam -parallel
 | 2  | 1109.00s user 113.99s system 2659% cpu 45.986 total |
 | 3  | 1105.76s user 119.69s system 2679% cpu 45.738 total |
 
-- Singularity + 环境 mpi: `time mpirun -np 28 --oversubscribe singularity exec ~/bin/openfoam6.sif sh -c 'simpleFoam -parallel'`
+- Singularity + 环境 mpi: `time mpirun -np 28 -oversubscribe singularity exec ~/bin/openfoam6.sif bash -c 'simpleFoam -parallel'`
 
 | 编号 | 计时 |
 | -- | -- |
