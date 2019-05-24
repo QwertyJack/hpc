@@ -7,3 +7,8 @@ From: openfoam/openfoam6-paraview54
 
 %label
     Author Jack
+
+%help
+    Image of OpenFOAM v6 and ParaView 5.4.0 on Ubuntu 16.04 using the openfoam6 and paraviewopenfoam54 packages from the OpenFOAM Foundation at https://openfoam.org/download/6-ubuntu.
+
+    Build from docker://openfoam/openfoam6-paraview54
